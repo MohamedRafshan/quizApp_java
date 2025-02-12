@@ -21,4 +21,9 @@ public class QuestionService {
     public List<Questions> getQuestionByDificulty(String level) {
         return questionDao.findByDificulty(level);
     }
+
+    public String addQuestion(Questions questions) {
+        questionDao.save(questions);
+        return "Question added";
+    }
 }
