@@ -1,8 +1,10 @@
 package com.rafshan.quizapp.controller;
 
-import com.rafshan.quizapp.Questions;
+import com.rafshan.quizapp.model.Questions;
 import com.rafshan.quizapp.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,18 +17,27 @@ public class QuestionController {
     QuestionService questionService;
 
     @GetMapping("allQuestions")
-    public List<Questions> getAllQuestions() {
-        return questionService.getAllQuestions();
+    public ResponseEntity<List<Questions>> getAllQuestions() {
+        try {
+            return questionService.getAllQuestions();
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @GetMapping("dificulty/{level}")
-    public List<Questions> getQuestionsByDificulty(@PathVariable String level) {
-        return questionService.getQuestionByDificulty(level);
+    public ResponseEntity<List<Questions>> getQuestionsByDificulty(@PathVariable String level) {
+        try {
+            return questionService.getQuestionByDificulty(level);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 
     @PostMapping("add")
-    public String addQuestion(@RequestBody Questions questions){
+    public ResponseEntity<String> addQuestion(@RequestBody Questions questions){
         return questionService.addQuestion(questions);
     }
 
